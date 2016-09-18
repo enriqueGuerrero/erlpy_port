@@ -1,0 +1,17 @@
+{application, erlpy_port,
+ [{description, "An TCP Server application in OTP"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { erlpy_port_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    jsx
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+ ]}.

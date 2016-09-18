@@ -1,0 +1,49 @@
+%% @doc port set TCP Server port where erlpy_port server is listening for requests
+{mapping, "port", "erlpy_port.port", [
+    {default, "8081"},
+    {datatype, integer}
+]}.
+
+%% @doc maxline set the buffer size associated with the port
+{mapping, "maxline", "erlpy_port.maxline", [
+    {default, "100"},
+    {datatype, integer}
+]}.
+
+%% @doc python_timeout set the time waiting for python code. Avoid to wait infinity time to response
+{mapping, "python_timeout", "erlpy_port.python_timeout", [    
+    {default, "300000"},
+    {datatype, integer}
+]}.
+
+%% @doc socket_timeout set the time waiting for the first message to TCP socket. When you established a TCP connection with erlpy_port, You have a timeout to send the first message
+{mapping, "socket_timeout", "erlpy_port.socket_timeout",[
+    {default,"300000"},
+    {datatype,integer}
+]}.
+
+%% @doc erlpy_port.py_files associate files with IDs 
+%% @see In this case, testFilePython is an ID and this ID is associate with test.py file. When You send a TCP message to erlpy_port, in this case you need to send an testFilePython as ID, like: 
+%% Json = jsx:encode([{<<"id">>,<<"testFilePython">>},{<<"data">>,[{<<"name">>,<<"Some name">>},{<<"lastname">>,<<"Some lastname">>}]}]).
+%% If you need to add other file, You can do it, like:
+%% {mapping, "file.otherId","erlpy_port.py_files",[
+%%    {default, "otherFile.py"},
+%%    {datatype,string}
+%% ]}.
+
+ 
+{mapping, "file.testFilePython","erlpy_port.py_files",[
+    {default, "test.py"},
+    {datatype,string}
+]}.
+
+
+%% @doc This translation parse all files in erlpy_port.py_files
+%% @see [{testFilePython, "test.py"}] = application:get_env(erlpy_port,py_files) 
+{translation,
+    "erlpy_port.py_files",
+    fun (Conf)->
+        Settings = cuttlefish_variable:filter_by_prefix("file",Conf),
+        [{list_to_atom(Id),FileName} || {["file",Id],FileName} <- Settings]
+    end
+}.
