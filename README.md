@@ -27,9 +27,9 @@ Clone:
 	
 	$ git clone https://github.com/enriqueGuerrero/erlpy_port.git
 	      
-Into erlpy_port
+Into erlpy_port:
 
-     $ cd erlpy_port
+	$ cd erlpy_port
        	    
 Compile:
 
@@ -44,11 +44,11 @@ Starting
 ------
 To start erlpy_port, type:
    
-   $ make start
+	$ make start
 
 Or you also can:
    
-   $ make console
+	$ make console
 
 Author
 ------
