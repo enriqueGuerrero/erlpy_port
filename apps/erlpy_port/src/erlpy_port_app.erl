@@ -17,6 +17,24 @@
 
 start(_StartType, _StartArgs) ->
     PrivDir = code:priv_dir(erlpy_port),
+    {ok, CowboyState} = application:get_env(erlpy_port, cowboy_http_server),
+    case CowboyState of
+	on->
+	    {ok, HttpPort} = application:get_env(erlpy_port, http_port),
+	    {ok, ServeDirectory} = application:get_env(erlpy_port,serve_directory),
+	    Dispatch = cowboy_router:compile([
+					      {'_', 
+					       [
+						{"/assets/[...]", cowboy_static, {priv_dir, erlpy_port, ServeDirectory}}
+					       ]
+					      }
+					     ]),
+	    cowboy:start_http(http, 100, [{port, HttpPort}],
+			      [{env, [{dispatch, Dispatch}]}]
+			     );
+	_->
+	    []
+    end,
     erlpy_port_sup:start_link(PrivDir).
 
 %%--------------------------------------------------------------------

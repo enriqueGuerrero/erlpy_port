@@ -4,7 +4,7 @@ TCP Server Socket written in Erlang and execute python code through Erlang port.
 
 How it works?
 ------
-The gen_server (erlpy_port.erl) creates one child (gen_server - erlpy_port_acceptor.erl) to listening a TCP connection. When a client establishes a connection to the child that was listening. erlpy_port creates another child to listening again. The child has a timeout to receive some message, if the timeout ends, this child die and close the TCP connection.
+The gen_server (erlpy_port.erl) creates one child (gen_server - erlpy_port_acceptor.erl) to listening a TCP connection. When a client establishes a connection to the child that was listening, erlpy_port creates another child to listening again. The child has a timeout to receive some message, if the timeout ends, this child die and close the TCP connection.
 
 The child receives a message that included an ID. This ID is associated with a python file, this association is defined in erlpy_port.schema and then, this child opens a port and execute that file. Finally, this child collects the response by the python file and returns that response to the client.
 

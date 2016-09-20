@@ -1,28 +1,49 @@
-%% @doc port set TCP Server port where erlpy_port server is listening for requests
+%% @doc port set TCP Server port where erlpy_port server is listening for requests.
 {mapping, "port", "erlpy_port.port", [
     {default, "8081"},
     {datatype, integer}
 ]}.
 
-%% @doc maxline set the buffer size associated with the port
+%% @doc turn on cowboy server 
+{mapping, "cowboy_http_server", "erlpy_port.cowboy_http_server", [
+  {datatype, {enum, [on, off]}},
+  {default, off}
+]}.
+
+
+%% @doc http_port set HTTP Cowboy Server port where erlpy_port is listening for HTTP requests.
+{mapping, "http_port", "erlpy_port.http_port", [
+    {default, "8091"},
+    {datatype, integer}
+]}.
+
+%% @doc serve_directory set to serve all files that can be found in the directory. This directory must be located into erlpy_port/priv directory.
+{mapping, "serve_directory", "erlpy_port.serve_directory", [
+    {default, "static/assets"},
+    {datatype, string}
+]}.
+
+
+
+%% @doc maxline set the buffer size associated with the port.
 {mapping, "maxline", "erlpy_port.maxline", [
     {default, "100"},
     {datatype, integer}
 ]}.
 
-%% @doc python_timeout set the time waiting for python code. Avoid to wait infinity time to response
+%% @doc python_timeout set the time waiting for python code. Avoid to wait infinity time to response.
 {mapping, "python_timeout", "erlpy_port.python_timeout", [    
     {default, "300000"},
     {datatype, integer}
 ]}.
 
-%% @doc socket_timeout set the time waiting for the first message to TCP socket. When you established a TCP connection with erlpy_port, You have a timeout to send the first message
+%% @doc socket_timeout set the time waiting for the first message to TCP socket. When you established a TCP connection with erlpy_port, You have a timeout to send the first message.
 {mapping, "socket_timeout", "erlpy_port.socket_timeout",[
     {default,"300000"},
     {datatype,integer}
 ]}.
 
-%% @doc erlpy_port.py_files associate files with IDs 
+%% @doc erlpy_port.py_files associate files with IDs.
 %% @see In this case, testFilePython is an ID and this ID is associate with test.py file. When You send a TCP message to erlpy_port, in this case you need to send an testFilePython as ID, like: 
 %% Json = jsx:encode([{<<"id">>,<<"testFilePython">>},{<<"data">>,[{<<"name">>,<<"Some name">>},{<<"lastname">>,<<"Some lastname">>}]}]).
 %% If you need to add other file, You can do it, like:
@@ -38,7 +59,7 @@
 ]}.
 
 
-%% @doc This translation parse all files in erlpy_port.py_files
+%% @doc This translation parse all files in erlpy_port.py_files.
 %% @see [{testFilePython, "test.py"}] = application:get_env(erlpy_port,py_files) 
 {translation,
     "erlpy_port.py_files",

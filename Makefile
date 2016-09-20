@@ -7,7 +7,7 @@ DIALYZER=dialyzer
 
 .PHONY: deps
 compile: deps
-	rm -rf _build
+	@rm -rf _build
 	$(REBAR) release
 
 clean:
