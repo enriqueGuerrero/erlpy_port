@@ -91,7 +91,9 @@ handle_cast({dispatcher,File,Json},State=#state{privdir=PrivDir})->
     PathFile = filename:join([PrivDir, File]),
     Port = open_port({spawn, "python " ++ PathFile}, [stream, {line, get_maxline()}]),
     error_logger:info_msg("PID ~p OPEN PORT ~p FILE ~p~n",[self(),Port,File]),
-    gen_server:cast(self(),{execute_port,Json}),
+    {ok, Serve_directory} = ?GET_ENV(erlpy_port, serve_directory),
+    PathServeDirectory = filename:join([PrivDir, Serve_directory]),
+    gen_server:cast(self(),{execute_port,Json ++ [{serve_directory,list_to_binary(PathServeDirectory)}]}),
     NewState = State#state{port=Port},
     {noreply,NewState};
 handle_cast(listener,State=#state{lsocket=LSocket, parent=Parent})->
